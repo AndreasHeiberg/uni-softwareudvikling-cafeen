@@ -13,11 +13,12 @@ Blog post -> https://realpython.com/blog/python/django-development-with-docker-c
 
 ### OS X Instructions
 
-1. Start new machine - `docker-machine create -d virtualbox python-cafeen;`
-1. Build images - `docker-compose build`
-1. Start services - `docker-compose up -d`
-1. Create migrations - `docker-compose run web /usr/local/bin/python manage.py migrate`
-1. Grab IP - `docker-machine ip python-cafeen` - and view in your browser
+1. Start new machine - `docker-machine create -d virtualbox python-cafeen`
+2. Build images - `docker-compose build`
+3. `eval "$(docker-machine env python-cafeen)"`
+4. Start services - `docker-compose up -d`
+5. Create migrations - `docker-compose run web /usr/local/bin/python manage.py migrate`
+6. Grab IP - `docker-machine ip python-cafeen` - and view in your browser
 
 ## Products
 
