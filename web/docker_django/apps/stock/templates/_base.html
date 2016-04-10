@@ -1,0 +1,33 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dockerizing Django!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "main.css" %}">
+  </head>
+  <body>
+    <div class="container">
+      {% if request.session.notifications %}
+        {% for notification in request.session.notifications %}
+          {% if notification.type == 'error' %}
+            <div class="alert alert-danger" role="alert">{{ notification.message|linebreaks }}</div>
+          {% elif notification.type == 'info' %}
+            <div class="alert alert-info" role="alert">{{ notification.message|linebreaks }}</div>
+          {% elif notification.type == 'success' %}
+            <div class="alert alert-success" role="alert">{{ notification.message|linebreaks }}</div>
+          {% elif notification.type == 'warning' %}
+            <div class="alert alert-warning" role="alert">{{ notification.message|linebreaks }}</div>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% block content %}
+      {% endblock %}
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  </body>
+</html>

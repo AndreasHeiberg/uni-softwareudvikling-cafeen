@@ -13,4 +13,4 @@ def home(request):
 
     items = Item.objects.all()
     counter = redis.incr('counter')
-    return render(request, 'home.html', {'items': items, 'counter': counter})
+    return render(request, 'todo/home.html', {'items': items, 'counter': counter})

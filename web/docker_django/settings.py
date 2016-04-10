@@ -38,7 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # apps
+    'docker_django.apps.accounts',
     'docker_django.apps.todo',
+    'docker_django.apps.stock',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,6 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'docker_django.middleware.method_override_middleware.MethodOverrideMiddleware',
 )
 
 ROOT_URLCONF = 'docker_django.urls'
@@ -117,3 +120,11 @@ STATIC_URL = '/static/'
 # )
 # print(STATICFILES_DIRS)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# Email settings
+# run SMTP server using "python -m smtpd -n -c DebuggingServer localhost:1025"
+# EMAIL_HOST = "localhost"
+# EMAIL_PORT = 1025
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = '/usr/src/app/send-emails' # change this to a proper location

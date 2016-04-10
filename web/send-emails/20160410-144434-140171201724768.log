@@ -1,0 +1,14 @@
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Stock Count Inconsistency
+From: andreas@heiberg
+To: andreas@heiberg.io
+Date: Sun, 10 Apr 2016 14:44:34 -0000
+Message-ID: <20160410144434.59.62886@f6a455726f9f>
+
+At last stock count at the start of the shift there was an inconsistency with the last stock count. Be adviced:
+name - last count - new count
+Cola - 2 - 2
+Fanta - 4 - 5
+-------------------------------------------------------------------------------

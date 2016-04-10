@@ -1,0 +1,13 @@
+{% extends "_base.html" %}
+
+
+{% block content %}
+
+<h1>Stock System</h1>
+<ul>
+	<li><a href="/stock/product-groups">Product Groups</a></li>
+	<li><a href="/stock/products">Products</a></li>
+	<li><a href="/stock/products/count?time=pre-shift">Take Stock Before Shift</a></li>
+	<li><a href="/stock/products/count?time=post-shift">Take Stock After Shift</a></li>
+</ul>
+{% endblock content %}
