@@ -54,3 +54,7 @@ class StockCountTransaction(models.Model):
     class Meta:
         ordering = ['pk']
 
+class User(models.Model):
+    username=models.CharField(max_length=30)
+    password=models.CharField(max_length=30)
+    grade=models.IntegerField()
