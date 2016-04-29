@@ -51,6 +51,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # project
+    'cafe.middleware.method_override_middleware.MethodOverrideMiddleware',
 )
 
 ROOT_URLCONF = 'cafe.urls'
