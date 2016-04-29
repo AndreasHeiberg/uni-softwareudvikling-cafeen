@@ -19,3 +19,11 @@ Feature: Home page
     Scenario: I should be able to go to Products
         When I visit "/"
         Then I should see "Products"
+
+    Scenario: I should be able to go to Stock Counting Pre Shift
+        When I visit "/"
+        Then I should see "Take Stock Before Shift"
+
+    Scenario: I should be able to go to Stock Counting Pre Shift
+        When I visit "/"
+        Then I should see "Take Stock After Shift"

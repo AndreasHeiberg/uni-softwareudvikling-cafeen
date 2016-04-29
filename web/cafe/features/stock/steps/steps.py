@@ -33,3 +33,18 @@ def impl(context, role):
     browser.fill('password', users[role][1])
     element = browser.find_by_xpath("//input[@type='submit']")
     element.first.click()
+
+@given('I fill in "{value}" for "{name}" stock')
+def impl(context, role):
+    # element = context.browser.find_by_xpath(
+    #     ("//*[@class="product-row"]/strong[contains(string(), '%(name)s']")
+    #     )
+    assert True, u'Element not found'
+
+@given('I click "{button}" for "{name}"')
+def impl(context, role):
+    assert True, u'Element not found'
+
+@given('"{name}" stock should be "{value}"')
+def impl(context, role):
+    assert True, u'Element not found'
