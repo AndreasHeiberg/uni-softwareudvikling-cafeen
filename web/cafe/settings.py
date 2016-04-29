@@ -120,3 +120,6 @@ STATIC_URL = '/static/'
 # )
 # print(STATICFILES_DIRS)
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = '/usr/src/app/cafe/var/mail' # change this to a proper location
