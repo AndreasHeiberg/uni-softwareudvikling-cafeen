@@ -4,3 +4,6 @@
 venv
 env
 __pycache__
+/web/cafe/var/mail/*
+/web/cafe/var/screenshot/*
+/web/cafe/var/sms/*

@@ -28,6 +28,8 @@
 
 We're using Behave for acceptance tests. The tests can be run with:
 
-`docker-compose run --rm web behave ./cafe/features/stock`
+`docker ps` and take the id of the web container id.
+`docker exec -i -t CONTAINER_ID bash`
+`behave ./cafe/features/stock`
 
 For testing emails all emails are saved to files in `/web/cafe/var/email`.
