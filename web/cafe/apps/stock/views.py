@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from .models import ProductGroup, Product
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def home(request):
     return render(request, 'stock/home.html', {})
 
+@login_required
 def product_groups(request):
     if request.method == 'POST':
         ProductGroup.objects.create(name=request.POST['name'])
@@ -12,11 +15,13 @@ def product_groups(request):
     groups = ProductGroup.objects.all()
     return render(request, 'stock/product_groups/index.html', {'groups': groups})
 
+@login_required
 def product_group(request, id):
     if request.method == 'DELETE':
         ProductGroup.objects.get(pk=id).delete()
         return redirect('/product-groups')
 
+@login_required
 def products(request):
     if request.method == 'POST':
         group = ProductGroup.objects.get(pk=request.POST['group_id'])
@@ -32,6 +37,7 @@ def products(request):
     groups = ProductGroup.objects.all()
     return render(request, 'stock/products/index.html', {'products': products, 'groups': groups})
 
+@login_required
 def product(request, id):
     if request.method == 'DELETE':
         Product.objects.get(pk=id).delete()

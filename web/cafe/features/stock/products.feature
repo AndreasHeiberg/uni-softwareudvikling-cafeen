@@ -5,6 +5,7 @@ Feature: Products
 
     Background:
         Given a browser
+        And I am logged in as "admin"
 
     Scenario: I should see created products
         When I visit "/products"

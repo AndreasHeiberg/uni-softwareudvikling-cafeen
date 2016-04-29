@@ -18,4 +18,18 @@ def i_click(context, name):
          "//a[contains(string(), '%(name)s')]") % {'name': name})
     assert element, u'Element not found'
     element.first.click()
-    
+
+@given('I am logged in as "{role}"')
+def impl(context, role):
+    users = {
+        'admin': ['admin', 'admin-password'],
+        'board-member': ['board-member', 'board-member-password'],
+        'key-carrier': ['key-carrier', 'key-carrier-password']
+    }
+
+    browser = context.browser
+    browser.visit(urljoin(context.base_url, '/accounts/login'))
+    browser.fill('username', users[role][0])
+    browser.fill('password', users[role][1])
+    element = browser.find_by_xpath("//input[@type='submit']")
+    element.first.click()
