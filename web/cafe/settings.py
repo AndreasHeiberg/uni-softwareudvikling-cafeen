@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # apps
-    'cafe.apps.stock'
+    'cafe.apps.stock',
+    'cafe.apps.accounts',
 )
 
 MIDDLEWARE_CLASSES = (

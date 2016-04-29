@@ -5,6 +5,7 @@ Feature: Home page
 
     Background:
         Given a browser
+        And I am logged in as "admin"
 
     Scenario: I should see the home page
         When I visit "/"

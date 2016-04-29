@@ -5,6 +5,7 @@ Feature: Product Groups
 
     Background:
         Given a browser
+        And I am logged in as "admin"
 
     Scenario: I should see created groups
         When I visit "/product-groups"
