@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^product-groups$', views.product_groups, name='product_groups'),
     url(r'^product-groups/([0-9]+)$', views.product_group, name='product_group'),
     url(r'^products$', views.products, name='products'),
-    url(r'^products/([0-9]+)$', views.product, name='product')
+    url(r'^products/([0-9]+)$', views.product, name='product'),
+    url(r'^products/count$', views.stock_count, name='stock_count')
 ]

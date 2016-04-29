@@ -26,3 +26,30 @@ class ProductGroup(models.Model):
 
     class Meta:
         ordering = ['pk']
+
+class StockCount(models.Model):
+    user_id = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    created_at = models.DateField(auto_now=True)
+
+    class Meta:
+        ordering = ['pk']
+
+class StockCountTransaction(models.Model):
+    count_id = models.ForeignKey(
+        'StockCount',
+        on_delete=models.CASCADE,
+        null=True
+    )
+    product_id = models.ForeignKey(
+        'Product',
+        on_delete=models.SET_NULL,
+        null=True
+    )
+    count = models.IntegerField()
+
+    class Meta:
+        ordering = ['pk']
