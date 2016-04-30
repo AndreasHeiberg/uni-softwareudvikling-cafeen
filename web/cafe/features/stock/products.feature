@@ -5,6 +5,7 @@ Feature: Products
 
     Background:
         Given a browser
+        And I am logged in as "admin"
 
     Scenario: I should see created products
         When I visit "/products"
@@ -19,3 +20,9 @@ Feature: Products
         And I fill in "price_rent" with "0"
         And I click "Create Product"
         Then I should see "Dr Pepper"
+
+    Scenario: I should be able to update product stock count
+        When I visit "/products"
+        And I fill in "10" for "Fanta" stock
+        And I click "Update Stock" for "Fanta"
+        Then "Fanata" stock should be "10"
