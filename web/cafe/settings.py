@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # dependencies
+    'rolepermissions',
     # apps
     'cafe.apps.stock',
     'cafe.apps.accounts',
