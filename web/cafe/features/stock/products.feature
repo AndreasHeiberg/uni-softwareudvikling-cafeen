@@ -7,6 +7,23 @@ Feature: Products
         Given a browser
         And I am logged in as "admin"
 
+    Scenario: I can create products as an admin
+        Given I am logged in as "admin"
+        When I visit "/products"
+        Then I should see button "Create Product"
+
+    Scenario: I can't create products as a non-admin
+        Given I am logged in as "key-carrier"
+        When I visit "/products"
+        Then I should not see button "Create Product"
+        When I POST to "/products" with:
+            |key        |value|
+            |name       |Cider|
+            |group_id   |1    |
+            |price      |25   |
+            |price_rent |0    |
+        Then I should a permission denied response
+
     Scenario: I should see created products
         When I visit "/products"
         Then I should see "Fanta"
@@ -26,3 +43,12 @@ Feature: Products
         And I fill in "10" for "Fanta" stock
         And I click "Update Stock" for "Fanta"
         Then "Fanata" stock should be "10"
+
+    Scenario: I can't update products stock as a non-admin
+        Given I am logged in as "key-carrier"
+        When I visit "/products"
+        Then I should not see button "Update Stock"
+        When I PUT to "/products/1" with:
+            |key   |value|
+            |stock |25   |
+        Then I should a permission denied response
