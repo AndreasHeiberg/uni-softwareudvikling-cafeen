@@ -19,6 +19,26 @@ def i_click(context, name):
     assert element, u'Element not found'
     element.first.click()
 
+@step(u'I should see button "{name}"')
+def i_see_button(context, name):
+    element = context.browser.find_by_xpath(
+        ("//button[contains(string(), '%(name)s')]|"
+         "//input[@type='button' and contains(string(), '%(name)s')]|"
+         "//input[@type='button' and contains(@value, '%(name)s')]|"
+         "//input[@type='submit' and contains(string(), '%(name)s')]|"
+         "//input[@type='submit' and contains(@value, '%(name)s')]") % {'name': name})
+    assert element, u'Element not found'
+
+@step(u'I should not see button "{name}"')
+def i_dont_see_button(context, name):
+
+    element = context.browser.find_by_xpath(
+        ("//button[contains(string(), '%(name)s')]|"
+         "//input[@type='button' and contains(string(), '%(name)s')]|"
+         "//input[@type='button' and contains(@value, '%(name)s')]|"
+         "//input[@type='submit' and contains(string(), '%(name)s')]|"
+         "//input[@type='submit' and contains(@value, '%(name)s')]") % {'name': name})
+
 @given('I am logged in as "{role}"')
 def impl(context, role):
     users = {
