@@ -30,15 +30,16 @@ def products(request):
         group = ProductGroup.objects.get(pk=request.POST['group_id'])
         Product.objects.create(
             name=request.POST['name'],
-            group_id=group,
+            group=group,
             price=int(request.POST['price']),
             price_rent=int(request.POST['price_rent'])
         )
         return redirect('/products')
 
-    products = Product.objects.all()
-    groups = ProductGroup.objects.all()
-    return render(request, 'stock/products/index.html', {'products': products, 'groups': groups})
+    if request.method == 'GET':
+        products = Product.objects.all()
+        groups = ProductGroup.objects.all()
+        return render(request, 'stock/products/index.html', {'products': products, 'groups': groups})
 
 @login_required
 def product(request, id):
@@ -61,24 +62,24 @@ def product(request, id):
 def stock_count(request):
     if request.method == 'POST':
         time = request.POST['time']
-        stock_count = StockCount.objects.create(user_id=request.user)
+        stock_count = StockCount.objects.create(user=request.user)
         differences = []
 
-        for index, count in request.POST.items():
+        for index, stock in request.POST.items():
             if index.endswith('_stock'):
                 product_id = index.split('_')[0]
                 product = Product.objects.get(pk=product_id)
 
-                if count != product.stock:
-                    differences.append({"product": product, "old": product.stock, "new": count})
+                if stock != product.stock:
+                    differences.append({"product": product, "old": product.stock, "new": stock})
 
-                product.stock = count
+                product.stock = stock
                 product.save()
 
                 StockCountTransaction.objects.create(
-                    count_id=stock_count,
-                    product_id=product,
-                    count=count
+                    count=stock_count,
+                    product_id=product_id,
+                    stock=stock
                 )
 
         if time == "pre-shift" and len(differences) > 0:

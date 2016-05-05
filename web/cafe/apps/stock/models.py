@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Product(models.Model):
     name = models.TextField(blank=False, null=False)
-    group_id = models.ForeignKey(
+    group = models.ForeignKey(
         'ProductGroup',
         on_delete=models.SET_NULL,
         null=True
@@ -28,7 +28,7 @@ class ProductGroup(models.Model):
         ordering = ['pk']
 
 class StockCount(models.Model):
-    user_id = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True
@@ -39,17 +39,17 @@ class StockCount(models.Model):
         ordering = ['pk']
 
 class StockCountTransaction(models.Model):
-    count_id = models.ForeignKey(
+    count = models.ForeignKey(
         'StockCount',
         on_delete=models.CASCADE,
         null=True
     )
-    product_id = models.ForeignKey(
+    product = models.ForeignKey(
         'Product',
         on_delete=models.SET_NULL,
         null=True
     )
-    count = models.IntegerField()
+    stock = models.IntegerField()
 
     class Meta:
         ordering = ['pk']

@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='product',
-            name='group_id',
+            name='group',
             field=models.ForeignKey(null=True, to='stock.ProductGroup', on_delete=django.db.models.deletion.SET_NULL),
         ),
     ]
