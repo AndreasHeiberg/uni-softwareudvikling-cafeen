@@ -1,9 +1,18 @@
 from django.shortcuts import render, redirect
-from .models import ProductGroup, Product, StockCount, StockCountTransaction
 from django.contrib.auth.decorators import login_required
+from .models import ProductGroup, Product, StockCount, StockCountTransaction
 from django.core.mail import send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from .modules.notifications import Notifications
+def selectivlySupportHTTPMethods(func):
+    def decorated(request, *args, **kwargs):
+        response = func(request, *args, **kwargs)
+
+        if not response:
+            return HttpResponseNotAllowed("HTTP method not allowed")
+
+        return response
+    return decorated
 
 @login_required
 def home(request):
@@ -42,21 +51,26 @@ def products(request):
         return render(request, 'stock/products/index.html', {'products': products, 'groups': groups})
 
 @login_required
+@selectivlySupportHTTPMethods
 def product(request, id):
-    if request.method == 'DELETE':
-        Product.objects.get(pk=id).delete()
-        return redirect('/products')
+    try:
+        product = Product.objects.get(pk=id)
 
-    if request.method == 'PUT':
-        try:
-            product = Product.objects.get(pk=id)
+        if request.method == 'DELETE':
+            product.delete()
+            return redirect('/products')
+
+        if request.method == 'PUT':
             product.stock = request.POST['stock']
             product.save()
 
             return redirect('/products')
-        except Product.DoesNotExist:
-            # handle error or exception handle?
-            return redirect('/products')
+
+        if request.method == 'GET':
+            return render(request, 'stock/products/show.html', {'products': products})
+
+    except Product.DoesNotExist:
+        raise Http404("Product does not exist")
 
 @login_required
 def stock_count(request):
