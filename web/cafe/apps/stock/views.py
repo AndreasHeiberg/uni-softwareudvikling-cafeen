@@ -15,10 +15,12 @@ def selectivlySupportHTTPMethods(func):
     return decorated
 
 @login_required
+@selectivlySupportHTTPMethods
 def home(request):
     return render(request, 'stock/home.html', {})
 
 @login_required
+@selectivlySupportHTTPMethods
 def product_groups(request):
     if request.method == 'POST':
         ProductGroup.objects.create(name=request.POST['name'])
@@ -28,12 +30,14 @@ def product_groups(request):
     return render(request, 'stock/product_groups/index.html', {'groups': groups})
 
 @login_required
+@selectivlySupportHTTPMethods
 def product_group(request, id):
     if request.method == 'DELETE':
         ProductGroup.objects.get(pk=id).delete()
         return redirect('/product-groups')
 
 @login_required
+@selectivlySupportHTTPMethods
 def products(request):
     if request.method == 'POST':
         group = ProductGroup.objects.get(pk=request.POST['group_id'])
@@ -73,6 +77,7 @@ def product(request, id):
         raise Http404("Product does not exist")
 
 @login_required
+@selectivlySupportHTTPMethods
 def stock_count(request):
     if request.method == 'POST':
         time = request.POST['time']
