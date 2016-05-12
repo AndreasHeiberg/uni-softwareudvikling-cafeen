@@ -20,6 +20,9 @@
 	- `docker-compose up -d`
 5. Create migrations and root user
 	- `docker-compose run --rm web /usr/local/bin/python manage.py migrate`
+	- `docker-compose run --rm web /usr/local/bin/python manage.py loaddata users.yaml`
+	- `docker-compose run --rm web /usr/local/bin/python manage.py loaddata product_groups.yaml`
+	- `docker-compose run --rm web /usr/local/bin/python manage.py loaddata products.yaml`
 	- `docker-compose run --rm web python manage.py createsuperuser`
 6. Grab IP and point your browser to it
 	- `docker-machine ip python-cafeen` - and view in your browser

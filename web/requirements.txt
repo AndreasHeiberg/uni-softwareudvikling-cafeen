@@ -4,3 +4,4 @@ psycopg2==2.6
 behave==1.2.5
 behaving==1.4.1
 django-role-permissions==1.0
+pyyaml==3.11
