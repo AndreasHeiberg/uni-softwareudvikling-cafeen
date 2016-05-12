@@ -1,0 +1,38 @@
+{% extends "_base.html" %}
+
+
+{% block content %}
+
+<h1>Product</h1>
+
+<div>
+  <h4 class="well">
+    <strong>{{product.name}}</strong>
+
+    <div class="row">
+      <form action="/stock/products/{{product.id}}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="PUT"/>
+
+        <div class="col-md-4">
+          <input type="text" class="form-control" name="stock" value="{{product.stock}}"></input>
+        </div>
+
+        <div class="col-md-4">
+          <input type="submit" class="btn btn-success" value="Update Stock">
+        </div>
+      </form>
+
+      <form action="/stock/products/{{product.id}}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="DELETE"/>
+
+        <div class="col-md-4">
+          <input type="submit" class="btn btn-danger" value="Delete">
+        </div>
+      </form>
+    </div>
+  </h4>
+</div>
+
+{% endblock content %}
