@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .models import ProductGroup, Product, StockCount, StockCountTransaction
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from .modules.notifications import Notifications
+from .models import ProductGroup, Product, StockCount, StockCountTransaction
+from .forms import ProductGroupForm
+
 def selectivlySupportHTTPMethods(func):
     def decorated(request, *args, **kwargs):
         response = func(request, *args, **kwargs)
@@ -22,12 +24,21 @@ def home(request):
 @login_required
 @selectivlySupportHTTPMethods
 def product_groups(request):
+    if request.method != 'GET' and request.method != 'POST':
+        return None
+
     if request.method == 'POST':
-        ProductGroup.objects.create(name=request.POST['name'])
-        return redirect('/product-groups')
+        form = ProductGroupForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            return redirect('/product-groups')
+    
+    if request.method == 'GET':
+        form = ProductGroupForm()
 
     groups = ProductGroup.objects.all()
-    return render(request, 'stock/product_groups/index.html', {'groups': groups})
+    return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
 
 @login_required
 @selectivlySupportHTTPMethods

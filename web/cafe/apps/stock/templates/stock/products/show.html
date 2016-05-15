@@ -10,7 +10,7 @@
     <strong>{{product.name}}</strong>
 
     <div class="row">
-      <form action="/stock/products/{{product.id}}" method="POST">
+      <form action="/products/{{product.id}}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="_method" value="PUT"/>
 
@@ -23,7 +23,7 @@
         </div>
       </form>
 
-      <form action="/stock/products/{{product.id}}" method="POST">
+      <form action="/products/{{product.id}}" method="POST">
         {% csrf_token %}
         <input type="hidden" name="_method" value="DELETE"/>
 

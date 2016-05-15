@@ -1,8 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.exceptions import NON_FIELD_ERRORS
+from django.utils.translation import ugettext_lazy as _
 
 class Product(models.Model):
-    name = models.TextField(blank=False, null=False)
+    name = models.CharField(blank=False, null=False, max_length=256)
     group = models.ForeignKey(
         'ProductGroup',
         on_delete=models.SET_NULL,
@@ -20,12 +23,16 @@ class Product(models.Model):
         ordering = ['pk']
 
 class ProductGroup(models.Model):
-    name = models.TextField(blank=False, null=False)
+    name = models.CharField(blank=False, null=False, max_length=256)
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
 
     class Meta:
         ordering = ['pk']
+
+    def validate_unique(self, exclude=None):
+        if ProductGroup.objects.filter(name=self.name).exists():
+            raise ValidationError({'name': ValidationError(_('Group name already exists.'))}, code='invalid')
 
 class StockCount(models.Model):
     user = models.ForeignKey(

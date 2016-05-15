@@ -1,26 +1,29 @@
 {% extends "_base.html" %}
 
+
 {% block content %}
-  <h1>Product Groups</h1>
 
-  <form action="/product-groups" method="POST">
-    {% csrf_token %}
-    <div class="form-group">
-      <input name="name" class="form-control input-lg" type="text" placeholder="Enter a name" required>
-    </div>
-    <input type="submit" class="btn btn-success btn-lg btn-block" value="Create Product Group">
-  </form>
+<h1>Product Groups</h1>
 
-  <div>
-    {% for group in groups %}
-      <h4 class="well">
-        <strong>{{group.name}}</strong>
-        <form action="/product-groups/{{group.id}}" method="POST">
-          {% csrf_token %}
-          <input type="hidden" name="_method" value="delete"/>
-          <input type="submit" class="btn btn-danger" value="Delete">
-        </form>
-      </h4>
-    {% endfor %}
-  </div>
+<form action="/product-groups" method="POST">
+  {% csrf_token %}
+  
+  {{ form }}
+
+  <input type="submit" class="btn btn-success btn-lg btn-block" value="Create Product Group">
+</form>
+
+<div>
+  {% for group in groups %}
+    <h4 class="well">
+      <strong>{{group.name}}</strong>
+      <form action="/product-groups/{{group.id}}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="_method" value="delete"/>
+        <input type="submit" class="btn btn-danger" value="Delete">
+      </form>
+    </h4>
+  {% endfor %}
+</div>
+
 {% endblock content %}

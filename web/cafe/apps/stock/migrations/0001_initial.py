@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             name='Product',
             fields=[
                 ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
-                ('name', models.TextField()),
+                ('name', models.CharField(max_length=256)),
                 ('price', models.IntegerField()),
                 ('price_rent', models.IntegerField()),
                 ('stock', models.IntegerField(default=0)),
@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             name='ProductGroup',
             fields=[
                 ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
-                ('name', models.TextField()),
+                ('name', models.CharField(max_length=256)),
                 ('created_at', models.DateField(auto_now=True)),
                 ('updated_at', models.DateField(auto_now=True)),
             ],
