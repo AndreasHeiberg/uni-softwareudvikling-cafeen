@@ -24,21 +24,20 @@ def home(request):
 @login_required
 @selectivlySupportHTTPMethods
 def product_groups(request):
-    if request.method != 'GET' and request.method != 'POST':
-        return None
-
     if request.method == 'POST':
         form = ProductGroupForm(request.POST)
 
         if form.is_valid():
             form.save()
             return redirect('/product-groups')
+
+        groups = ProductGroup.objects.all()
+        return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
     
     if request.method == 'GET':
         form = ProductGroupForm()
-
-    groups = ProductGroup.objects.all()
-    return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
+        groups = ProductGroup.objects.all()
+        return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
 
 @login_required
 @selectivlySupportHTTPMethods
