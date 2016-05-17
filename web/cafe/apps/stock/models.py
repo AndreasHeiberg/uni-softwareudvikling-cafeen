@@ -22,6 +22,10 @@ class Product(models.Model):
     class Meta:
         ordering = ['pk']
 
+    def validate_unique(self, exclude=None):
+        if Product.objects.filter(name=self.name).exists():
+            raise ValidationError({'name': ValidationError(_('Product name already exists.'))}, code='invalid')
+
 class ProductGroup(models.Model):
     name = models.CharField(blank=False, null=False, max_length=256)
     created_at = models.DateField(auto_now=True)
@@ -33,6 +37,9 @@ class ProductGroup(models.Model):
     def validate_unique(self, exclude=None):
         if ProductGroup.objects.filter(name=self.name).exists():
             raise ValidationError({'name': ValidationError(_('Group name already exists.'))}, code='invalid')
+
+    def __str__(self):
+        return self.name
 
 class StockCount(models.Model):
     user = models.ForeignKey(

@@ -4,25 +4,25 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseNotAllowed, Http404
 from .modules.notifications import Notifications
 from .models import ProductGroup, Product, StockCount, StockCountTransaction
-from .forms import ProductGroupForm
+from .forms import ProductGroupForm, ProductForm
 
-def selectivlySupportHTTPMethods(func):
-    def decorated(request, *args, **kwargs):
-        response = func(request, *args, **kwargs)
+def methods(methods):
+    def real_decorator(func):
+        def wrapper(request, *args, **kwargs):
+            if request.method in methods:
+                return func(request, *args, **kwargs)
 
-        if not response:
-            return HttpResponseNotAllowed("HTTP method not allowed")
-
-        return response
-    return decorated
+            return HttpResponseNotAllowed(methods)
+        return wrapper
+    return real_decorator
 
 @login_required
-@selectivlySupportHTTPMethods
+@methods(['GET'])
 def home(request):
     return render(request, 'stock/home.html', {})
 
 @login_required
-@selectivlySupportHTTPMethods
+@methods(['POST', 'GET'])
 def product_groups(request):
     if request.method == 'POST':
         form = ProductGroupForm(request.POST)
@@ -31,41 +31,40 @@ def product_groups(request):
             form.save()
             return redirect('/product-groups')
 
-        groups = ProductGroup.objects.all()
-        return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
-    
-    if request.method == 'GET':
+    if not 'form' in locals():
         form = ProductGroupForm()
-        groups = ProductGroup.objects.all()
-        return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
+        
+    groups = ProductGroup.objects.all()
+    return render(request, 'stock/product_groups/index.html', {'form': form, 'groups': groups})
 
 @login_required
-@selectivlySupportHTTPMethods
+@methods(['DELETE'])
 def product_group(request, id):
-    if request.method == 'DELETE':
-        ProductGroup.objects.get(pk=id).delete()
-        return redirect('/product-groups')
+    ProductGroup.objects.get(pk=id).delete()
+    return redirect('/product-groups')
 
 @login_required
-@selectivlySupportHTTPMethods
+@methods(['POST', 'GET'])
 def products(request):
     if request.method == 'POST':
-        group = ProductGroup.objects.get(pk=request.POST['group_id'])
-        Product.objects.create(
-            name=request.POST['name'],
-            group=group,
-            price=int(request.POST['price']),
-            price_rent=int(request.POST['price_rent'])
-        )
-        return redirect('/products')
+        form = ProductForm(request.POST)
 
-    if request.method == 'GET':
-        products = Product.objects.all()
-        groups = ProductGroup.objects.all()
-        return render(request, 'stock/products/index.html', {'products': products, 'groups': groups})
+        if form.is_valid():
+            form.save()
+            return redirect('/products')
+        
+    products = Product.objects.all()
+    groups = ProductGroup.objects.all()
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, groups=groups)
+    else:
+        form = ProductForm(groups=groups)
+
+    return render(request, 'stock/products/index.html', {'form': form, 'products': products})
 
 @login_required
-@selectivlySupportHTTPMethods
+@methods(['GET', 'PUT', 'DELETE'])
 def product(request, id):
     try:
         product = Product.objects.get(pk=id)
@@ -87,7 +86,7 @@ def product(request, id):
         raise Http404("Product does not exist")
 
 @login_required
-@selectivlySupportHTTPMethods
+@methods(['POST', 'GET'])
 def stock_count(request):
     if request.method == 'POST':
         time = request.POST['time']
