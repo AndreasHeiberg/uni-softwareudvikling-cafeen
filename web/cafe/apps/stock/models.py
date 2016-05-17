@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.utils.translation import ugettext_lazy as _
+from cafe.utils.fields import JSONField
 
 class Product(models.Model):
     name = models.CharField(blank=False, null=False, max_length=256)
@@ -13,8 +14,8 @@ class Product(models.Model):
     )
     price = models.IntegerField()
     price_rent = models.IntegerField()
+    price_other = JSONField(blank=True, null=True)
     stock = models.IntegerField(default=0)
-    # TODO: Special prices
     created_at = models.DateField(auto_now=True)
     updated_at = models.DateField(auto_now=True)
     deleted_at = models.DateField(auto_now=True)
@@ -47,6 +48,7 @@ class StockCount(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
+    price_type = models.CharField(blank=False, null=True, max_length=256)
     created_at = models.DateField(auto_now=True)
 
     class Meta:
@@ -63,6 +65,8 @@ class StockCountTransaction(models.Model):
         on_delete=models.SET_NULL,
         null=True
     )
+    name = models.CharField(blank=False, null=False, max_length=256)
+    price = models.IntegerField()
     stock = models.IntegerField()
 
     class Meta:
