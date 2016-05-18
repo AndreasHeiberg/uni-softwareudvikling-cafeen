@@ -14,7 +14,7 @@ Feature: Users can login
         When I visit "/products"
         Then the browser's URL should be "/accounts/login/?next=/products"
         And I fill in "username" with "admin"
-        And I fill in "password" with "admin-password"
+        And I fill in "password" with "password"
         And I click "login"
         Then the browser's URL should be "/products"
         And I should see "Products"

@@ -3,6 +3,6 @@ gunicorn==19.3.0
 psycopg2==2.6
 behave==1.2.5
 behaving==1.4.1
-django-role-permissions==1.0
 pyyaml==3.11
 django-forms-bootstrap==3.0.1
+requests==2.10.0

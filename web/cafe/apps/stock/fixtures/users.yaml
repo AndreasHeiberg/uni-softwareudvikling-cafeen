@@ -1,12 +1,61 @@
+- model: auth.group
+  pk: 1
+  fields:
+    name: Admin
+    permissions: [1, 2, 3, 7, 8, 9, 4, 5, 6, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+      20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+- model: auth.group
+  pk: 2
+  fields:
+    name: BoardMember
+    permissions: [25, 28, 31]
+- model: auth.group
+  pk: 3
+  fields:
+    name: KeyCarrier
+    permissions: [25, 28, 31]
 - model: auth.user
   pk: 1
   fields:
     first_name: ''
     last_name: ''
-    username: testusername
-    email: test@username.com
+    username: admin
+    email: admin@gmail.com
     password: pbkdf2_sha256$20000$NkNzJynqWLzb$kHFNJlmWiFHx7pDkV5OQ2UYR0Jrjdf320sNKHwerwWk=
-    groups: []
+    groups:
+        - 1
+    user_permissions: []
+    is_active: true
+    is_staff: true
+    is_superuser: true
+    last_login: null
+    date_joined: 2016-06-12 07:19:41.888717+00:00
+- model: auth.user
+  pk: 2
+  fields:
+    first_name: ''
+    last_name: ''
+    username: boardmember
+    email: boardmember@gmail.com
+    password: pbkdf2_sha256$20000$NkNzJynqWLzb$kHFNJlmWiFHx7pDkV5OQ2UYR0Jrjdf320sNKHwerwWk=
+    groups:
+        - 2
+    user_permissions: []
+    is_active: true
+    is_staff: true
+    is_superuser: true
+    last_login: null
+    date_joined: 2016-06-12 07:19:41.888717+00:00
+- model: auth.user
+  pk: 3
+  fields:
+    first_name: ''
+    last_name: ''
+    username: keycarrier
+    email: keycarrier@gmail.com
+    password: pbkdf2_sha256$20000$NkNzJynqWLzb$kHFNJlmWiFHx7pDkV5OQ2UYR0Jrjdf320sNKHwerwWk=
+    groups:
+        - 3
     user_permissions: []
     is_active: true
     is_staff: true

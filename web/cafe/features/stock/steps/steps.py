@@ -3,6 +3,9 @@ from behaving.web.steps import *
 from behaving.sms.steps import *
 from behaving.mail.steps import *
 from behaving.personas.steps import *
+import requests
+from inspect import getmembers
+from pprint import pprint
 
 @step(u'I click "{name}"')
 def i_click(context, name):
@@ -11,9 +14,7 @@ def i_click(context, name):
         ("//*[@id='%(name)s']|"
          "//*[@name='%(name)s']|"
          "//button[contains(string(), '%(name)s')]|"
-         "//input[@type='button' and contains(string(), '%(name)s')]|"
          "//input[@type='button' and contains(@value, '%(name)s')]|"
-         "//input[@type='submit' and contains(string(), '%(name)s')]|"
          "//input[@type='submit' and contains(@value, '%(name)s')]|"
          "//a[contains(string(), '%(name)s')]") % {'name': name})
     assert element, u'Element not found'
@@ -23,9 +24,7 @@ def i_click(context, name):
 def i_see_button(context, name):
     element = context.browser.find_by_xpath(
         ("//button[contains(string(), '%(name)s')]|"
-         "//input[@type='button' and contains(string(), '%(name)s')]|"
          "//input[@type='button' and contains(@value, '%(name)s')]|"
-         "//input[@type='submit' and contains(string(), '%(name)s')]|"
          "//input[@type='submit' and contains(@value, '%(name)s')]") % {'name': name})
     assert element, u'Element not found'
 
@@ -34,17 +33,15 @@ def i_dont_see_button(context, name):
 
     element = context.browser.find_by_xpath(
         ("//button[contains(string(), '%(name)s')]|"
-         "//input[@type='button' and contains(string(), '%(name)s')]|"
          "//input[@type='button' and contains(@value, '%(name)s')]|"
-         "//input[@type='submit' and contains(string(), '%(name)s')]|"
          "//input[@type='submit' and contains(@value, '%(name)s')]") % {'name': name})
 
 @given('I am logged in as "{role}"')
 def impl(context, role):
     users = {
-        'admin': ['admin', 'admin-password'],
-        'board-member': ['board-member', 'board-member-password'],
-        'key-carrier': ['key-carrier', 'key-carrier-password']
+        'admin': ['admin', 'password'],
+        'board-member': ['boardmember', 'password'],
+        'key-carrier': ['keycarrier', 'password']
     }
 
     browser = context.browser
@@ -68,3 +65,22 @@ def impl(context, role):
 @given('"{name}" stock should be "{value}"')
 def impl(context, role):
     assert True, u'Element not found'
+
+@when(u'I "{method}" to "{url}" with:')
+def step_impl(context):
+    method = methods.upper()
+    url = urljoin(context.base_url, url)
+    data = context.table
+    pprint(getmembers(data))
+
+    if method == "POST":
+        context.response = request.post(url, data=data)
+
+    if method == "PUT":
+        context.response = request.put(url, data=data)
+
+    if method == "GET":
+        context.response = request.get(url, data=data)
+
+    if method == "DELETE":
+        context.response = request.delete(url, data=data)

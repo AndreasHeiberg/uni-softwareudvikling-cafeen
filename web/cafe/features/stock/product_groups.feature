@@ -16,9 +16,8 @@ Feature: Product Groups
         Given I am logged in as "key-carrier"
         When I visit "/product-groups"
         Then I should not see button "Create Product Group"
-        When I POST to "/products" with:
-            |key        |value|
-            |name       |Food |
+        When I "POST" to "/products" with:
+            | name | Food |
         Then I should a permission denied response
 
     Scenario: I should see created groups

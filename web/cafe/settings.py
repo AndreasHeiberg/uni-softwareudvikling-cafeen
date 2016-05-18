@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # dependencies
-    'rolepermissions',
     'django_forms_bootstrap',
     # apps
     'cafe.apps.stock',

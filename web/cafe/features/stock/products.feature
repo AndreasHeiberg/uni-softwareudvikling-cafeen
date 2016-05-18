@@ -17,11 +17,10 @@ Feature: Products
         When I visit "/products"
         Then I should not see button "Create Product"
         When I POST to "/products" with:
-            |key        |value|
-            |name       |Cider|
-            |group_id   |1    |
-            |price      |25   |
-            |price_rent |0    |
+            | name       | Cider |
+            | group_id   | 1     |
+            | price      | 25    |
+            | price_rent | 0     |
         Then I should a permission denied response
 
     Scenario: I should see created products

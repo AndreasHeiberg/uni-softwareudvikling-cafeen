@@ -22,6 +22,9 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['pk']
+        permissions = (
+            ("rent_out_product", "Can rent out a product"),
+        )
 
     def validate_unique(self, exclude=None):
         if Product.objects.filter(name=self.name).exists():
