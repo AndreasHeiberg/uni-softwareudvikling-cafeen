@@ -1,11 +1,16 @@
 {% extends "_base.html" %}
 
 {% block content %}
-  <h1>Products</h1>
+  <h1>Stock Count</h1>
 
   <form action="/products/count" method="POST">
     {% csrf_token %}
     <input type="hidden" name="time" value="{{time}}"/>
+
+    <div class="form-group">
+      <label for="price_type">Price Type (leave blank for standard price)</label>
+      <input type="string" name="price_type" class="form-control"/>
+    </div>
 
     {% for product in products %}
       <h4 class="well">

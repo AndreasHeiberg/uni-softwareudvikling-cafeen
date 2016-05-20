@@ -9,7 +9,7 @@ class ProductGroupForm(ModelForm):
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = ['group', 'name', 'price', 'price_rent', 'stock']
+        fields = ['group', 'name', 'price', 'price_rent', 'price_other', 'stock']
 
     def __init__(self, *args, **kwargs):
         groups = kwargs.pop('groups', None)

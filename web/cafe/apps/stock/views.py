@@ -74,6 +74,10 @@ def product(request, id):
             return redirect('/products')
 
         if request.method == 'PUT':
+            product.name = request.POST['name']
+            product.price = request.POST['price']
+            product.price_rent = request.POST['price_rent']
+            product.price_other = request.POST['price_other']
             product.stock = request.POST['stock']
             product.save()
 
@@ -90,16 +94,26 @@ def product(request, id):
 def stock_count(request):
     if request.method == 'POST':
         time = request.POST['time']
-        stock_count = StockCount.objects.create(user=request.user)
+        price_type = request.POST['price_type']
+        
+        stock_count = StockCount.objects.create(user=request.user, price_type=price_type)
+        
         differences = []
-
         for index, stock in request.POST.items():
             if index.endswith('_stock'):
                 product_id = index.split('_')[0]
                 product = Product.objects.get(pk=product_id)
 
-                if stock != product.stock:
-                    differences.append({"product": product, "old": product.stock, "new": stock})
+                price = product.price
+
+                if price_type != "":
+                    if price_type == "rent":
+                        price = product.price_rent
+                    elif product.price_other and price_type in product.price_other:
+                        price = product.price_other[price_type]
+
+                if int(stock) != product.stock:
+                    differences.append({"product": product, "old": product.stock, "new": stock, "price": price})
 
                 product.stock = stock
                 product.save()
@@ -107,6 +121,8 @@ def stock_count(request):
                 StockCountTransaction.objects.create(
                     count=stock_count,
                     product_id=product_id,
+                    name=product.name,
+                    price=price,
                     stock=stock
                 )
 
@@ -117,6 +133,7 @@ def stock_count(request):
             
             message = "At last stock count at the start of the shift there was an inconsistency with the last stock count. Be adviced:"
             message += "\nname - last count - new count"
+            
             for difference in differences:
                 message += "\n" + difference['product'].name + " - " + str(difference['old']) + " - " + str(difference['new'])
 
@@ -128,7 +145,7 @@ def stock_count(request):
             turn_over = 0
 
             for difference in differences:
-                turn_over += difference['product'].price * (int(difference['new']) - int(difference['old']))
+                turn_over += difference['price'] * (int(difference['old']) - int(difference['new']))
 
             Notifications(request).add('success', "Turn over this shift: " + str(turn_over) + "DKK")
 

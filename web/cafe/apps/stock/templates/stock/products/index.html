@@ -15,14 +15,33 @@
   <div>
     {% for product in products %}
       <h4 class="well" class="product-row">
-        <strong>{{product.name}}</strong>
-
         <div class="row">
           <form action="/products/{{product.id}}" method="POST">
             {% csrf_token %}
             <input type="hidden" name="_method" value="PUT"/>
 
-            <div class="col-md-4">
+            <div class="form-group col-md-4">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" name="name" value="{{product.name}}"></input>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="price">Price</label>
+              <input type="text" class="form-control" name="price" value="{{product.price}}"></input>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="price_rent">Price Rent</label>
+              <input type="text" class="form-control" name="price_rent" value="{{product.price_rent}}"></input>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="price_other">Price Other</label>
+              <input type="text" class="form-control" name="price_other" value="{{product.price_other}}"></input>
+            </div>
+
+            <div class="form-group col-md-4">
+              <label for="stock">Stock</label>
               <input type="text" class="form-control" name="stock" value="{{product.stock}}"></input>
             </div>
 
